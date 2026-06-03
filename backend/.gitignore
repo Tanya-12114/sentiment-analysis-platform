@@ -1,0 +1,54 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+
+# spaCy model cache
+/models/
+
+# HuggingFace model cache (can be huge — cache outside repo)
+.cache/
+
+# Alembic
+alembic.ini.local
+
+# Logs
+*.log
+logs/
+
+# PyTorch
+*.pt
+*.pth
+*.bin
+
+# Docker
+*.dockerignore

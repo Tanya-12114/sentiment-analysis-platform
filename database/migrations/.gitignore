@@ -1,0 +1,12 @@
+# Alembic auto-generated versions (keep only hand-edited migrations)
+# Remove this line if you want to track all auto-generated migrations
+# versions/
+
+# Local DB dumps
+*.sql
+*.dump
+*.db
+*.sqlite3
+
+# Logs
+*.log
