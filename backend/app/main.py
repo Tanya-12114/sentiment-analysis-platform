@@ -29,8 +29,12 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    app.state.nlp_pipeline = ABSAPipeline()
-    await app.state.nlp_pipeline.load()
+    try:
+        app.state.nlp_pipeline = ABSAPipeline()
+        await app.state.nlp_pipeline.load()
+    except Exception as e:
+        print(f"⚠ NLP pipeline skipped: {e}")
+        app.state.nlp_pipeline = None
 
     yield
 

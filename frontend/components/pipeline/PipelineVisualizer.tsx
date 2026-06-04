@@ -170,7 +170,7 @@ export function PipelineVisualizer({ onRunComplete }: Props) {
                       : "text-gray-400"
                   }`}
                 >
-                  {isDone ? "✓ " : isActive ? "⟳ " : `${i + 1}. "}
+                  {isDone ? "✓ " : isActive ? "⟳ " : `${i + 1}. `}
                   {stage.label}
                 </span>
               </div>
