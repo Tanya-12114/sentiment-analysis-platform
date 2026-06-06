@@ -16,7 +16,7 @@ function MiniBar({ positive, negative, total }: { positive: number; negative: nu
   const posW = Math.round((positive / total) * 100);
   const negW = Math.round((negative / total) * 100);
   return (
-    <div className="flex h-2 w-full rounded overflow-hidden gap-px min-w-[80px]">
+    <div className="flex h-2.5 w-full rounded overflow-hidden gap-px min-w-[90px]">
       {posW > 0 && (
         <div style={{ width: `${posW}%` }} className="bg-emerald-500 opacity-80" />
       )}
@@ -48,7 +48,7 @@ export function AspectTable({ data }: Props) {
   const Th = ({ label, k }: { label: string; k: SortKey }) => (
     <th
       onClick={() => toggleSort(k)}
-      className="text-left text-xs font-medium text-gray-400 py-2 px-3 cursor-pointer select-none hover:text-gray-600 whitespace-nowrap"
+      className="text-left text-sm font-semibold text-gray-500 py-3 px-4 cursor-pointer select-none hover:text-gray-700 whitespace-nowrap"
     >
       {label}
       {sortKey === k && <span className="ml-1">{sortAsc ? "↑" : "↓"}</span>}
@@ -57,7 +57,7 @@ export function AspectTable({ data }: Props) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full text-base">
         <thead>
           <tr className="border-b border-gray-100 dark:border-gray-700">
             <Th label="Aspect" k="aspect" />
@@ -73,17 +73,17 @@ export function AspectTable({ data }: Props) {
               key={a.aspect}
               className="border-b border-gray-50 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors"
             >
-              <td className="py-2.5 px-3 capitalize font-medium">{a.aspect}</td>
-              <td className="py-2.5 px-3 tabular-nums">{a.total}</td>
-              <td className="py-2.5 px-3 min-w-[120px]">
+              <td className="py-3.5 px-4 capitalize font-semibold text-gray-800 dark:text-gray-200">{a.aspect}</td>
+              <td className="py-3.5 px-4 tabular-nums text-gray-700 dark:text-gray-300">{a.total}</td>
+              <td className="py-3.5 px-4 min-w-[130px]">
                 <MiniBar positive={a.positive} negative={a.negative} total={a.total} />
-                <span className="text-xs text-gray-400 mt-1 block">
+                <span className="text-sm text-gray-400 mt-1.5 block">
                   {a.positive}↑  {a.negative}↓
                 </span>
               </td>
-              <td className="py-2.5 px-3 tabular-nums">
+              <td className="py-3.5 px-4 tabular-nums">
                 <span
-                  className={`font-medium ${
+                  className={`font-semibold text-base ${
                     a.sentiment_score > 0
                       ? "text-emerald-600"
                       : a.sentiment_score < 0
@@ -94,7 +94,7 @@ export function AspectTable({ data }: Props) {
                   {a.sentiment_score > 0 ? "+" : ""}{a.sentiment_score}
                 </span>
               </td>
-              <td className="py-2.5 px-3 tabular-nums text-gray-500">
+              <td className="py-3.5 px-4 tabular-nums text-gray-500">
                 {Math.round(a.avg_confidence * 100)}%
               </td>
             </tr>

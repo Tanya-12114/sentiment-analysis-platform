@@ -112,13 +112,13 @@ export function PipelineVisualizer({ onRunComplete }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       {/* Controls */}
       <div className="flex items-center gap-3">
         <button
           onClick={runPipeline}
           disabled={running}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-base font-semibold transition-all ${
             running
               ? "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
               : "bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-300 dark:border-violet-700 hover:bg-violet-100"
@@ -131,14 +131,14 @@ export function PipelineVisualizer({ onRunComplete }: Props) {
         {(done || activeStep >= 0) && (
           <button
             onClick={reset}
-            className="px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-gray-600 border border-gray-200 dark:border-gray-700 transition-colors"
+            className="px-4 py-2.5 rounded-lg text-base text-gray-400 hover:text-gray-600 border border-gray-200 dark:border-gray-700 transition-colors"
           >
             Reset
           </button>
         )}
 
         {done && (
-          <span className="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1.5">
+          <span className="text-base text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5">
             ✓ Pipeline complete
           </span>
         )}
@@ -153,7 +153,7 @@ export function PipelineVisualizer({ onRunComplete }: Props) {
           return (
             <div key={stage.id} className="flex items-center gap-2">
               <div
-                className={`flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-xl border text-center transition-all duration-300 min-w-[90px] ${
+                className={`flex flex-col items-center gap-1.5 px-3.5 py-3 rounded-xl border text-center transition-all duration-300 min-w-[100px] ${
                   isDone
                     ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800"
                     : isActive
@@ -162,7 +162,7 @@ export function PipelineVisualizer({ onRunComplete }: Props) {
                 }`}
               >
                 <span
-                  className={`text-xs font-medium ${
+                  className={`text-sm font-semibold ${
                     isDone
                       ? "text-emerald-700 dark:text-emerald-300"
                       : isActive
@@ -189,32 +189,32 @@ export function PipelineVisualizer({ onRunComplete }: Props) {
       {/* Active stage detail card */}
       {activeStep >= 0 && activeStep < STAGES.length && (
         <div
-          className={`p-4 rounded-xl border ${STAGES[activeStep]?.bgColor ?? ""} transition-all duration-300`}
+          className={`p-5 rounded-xl border ${STAGES[activeStep]?.bgColor ?? ""} transition-all duration-300`}
         >
-          <p className={`text-sm font-medium mb-1 ${STAGES[activeStep]?.color}`}>
+          <p className={`text-base font-semibold mb-1.5 ${STAGES[activeStep]?.color}`}>
             Stage {activeStep + 1} — {STAGES[activeStep]?.label}
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+          <p className="text-base text-gray-600 dark:text-gray-300 mb-3">
             {STAGES[activeStep]?.description}
           </p>
-          <span className="text-xs bg-white/60 dark:bg-black/20 px-2 py-0.5 rounded font-mono text-gray-500 dark:text-gray-400">
+          <span className="text-sm bg-white/60 dark:bg-black/20 px-2.5 py-1 rounded font-mono text-gray-500 dark:text-gray-400">
             {STAGES[activeStep]?.tech}
           </span>
         </div>
       )}
 
       {/* Architecture overview cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
         {STAGES.map((s) => (
           <div
             key={s.id}
-            className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-3.5"
+            className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-4"
           >
-            <p className={`text-xs font-semibold mb-1 ${s.color}`}>{s.label}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-2">
+            <p className={`text-sm font-bold mb-1.5 ${s.color}`}>{s.label}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-2.5">
               {s.description}
             </p>
-            <code className="text-[11px] text-gray-400 font-mono">{s.tech}</code>
+            <code className="text-sm text-gray-400 font-mono">{s.tech}</code>
           </div>
         ))}
       </div>

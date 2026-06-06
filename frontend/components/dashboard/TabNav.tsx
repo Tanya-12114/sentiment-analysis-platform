@@ -32,13 +32,13 @@ export function TabNav({ active, onChange }: Props) {
         <button
           key={t.id}
           onClick={() => onChange(t.id)}
-          className={`flex items-center gap-1.5 px-4 py-2.5 text-sm whitespace-nowrap transition-all duration-150 border-b-2 -mb-px ${
+          className={`flex items-center gap-2 px-5 py-3.5 text-base whitespace-nowrap transition-all duration-150 border-b-2 -mb-px ${
             active === t.id
-              ? "border-violet-600 text-violet-600 dark:text-violet-400 font-medium"
-              : "border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              ? "border-violet-600 text-violet-600 dark:text-violet-400 font-semibold"
+              : "border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 font-medium"
           }`}
         >
-          <span className="text-base leading-none">{t.icon}</span>
+          <span className="text-lg leading-none">{t.icon}</span>
           {t.label}
         </button>
       ))}

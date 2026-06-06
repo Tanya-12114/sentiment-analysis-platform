@@ -47,16 +47,16 @@ export function MetricCards({ summary }: Props) {
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
       {cards.map((c) => (
         <div
           key={c.label}
-          className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4"
+          className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-5"
         >
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1.5">{c.label}</p>
-          <p className={`text-2xl font-medium ${c.color}`}>{c.value}</p>
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{c.label}</p>
+          <p className={`text-3xl font-bold ${c.color}`}>{c.value}</p>
           {c.sub && (
-            <p className="text-xs text-gray-400 mt-1">{c.sub}</p>
+            <p className="text-sm text-gray-400 mt-1.5">{c.sub}</p>
           )}
         </div>
       ))}

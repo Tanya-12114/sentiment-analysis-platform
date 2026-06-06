@@ -30,9 +30,9 @@ function SectionCard({
 }) {
   return (
     <div
-      className={`bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 ${className}`}
+      className={`bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 ${className}`}
     >
-      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">{title}</p>
+      <p className="text-base font-semibold text-gray-700 dark:text-gray-300 mb-5">{title}</p>
       {children}
     </div>
   );
@@ -42,7 +42,7 @@ function LoadingShimmer({ rows = 3 }: { rows?: number }) {
   return (
     <div className="space-y-3 animate-pulse">
       {Array.from({ length: rows }).map((_, i) => (
-        <div key={i} className="h-8 bg-gray-100 dark:bg-gray-800 rounded-lg" />
+        <div key={i} className="h-10 bg-gray-100 dark:bg-gray-800 rounded-lg" />
       ))}
     </div>
   );
@@ -79,18 +79,18 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
       {/* ── Header ───────────────────────────────────────────────────── */}
       <header className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div className="max-w-7xl mx-auto px-5 sm:px-7 py-5">
+          <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
             <div>
-              <p className="text-xs font-medium text-gray-400 uppercase tracking-widest">
+              <p className="text-sm font-semibold text-gray-400 uppercase tracking-widest">
                 E-Commerce Analytics
               </p>
-              <h1 className="text-xl font-semibold mt-0.5">
+              <h1 className="text-2xl font-bold mt-1">
                 Aspect-Based Sentiment Analysis
               </h1>
             </div>
-            <div className="flex items-center gap-2 text-xs text-gray-400">
-              <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
               NLP pipeline active
             </div>
           </div>
@@ -107,13 +107,13 @@ export default function DashboardPage() {
 
       {/* ── Tab Nav ──────────────────────────────────────────────────── */}
       <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto px-5 sm:px-7">
           <TabNav active={tab} onChange={setTab} />
         </div>
       </div>
 
       {/* ── Main content ─────────────────────────────────────────────── */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-5">
+      <main className="max-w-7xl mx-auto px-5 sm:px-7 py-7 space-y-6">
 
         {/* ── OVERVIEW ─────────────────────────────────────────────── */}
         {tab === "overview" && (
@@ -124,7 +124,7 @@ export default function DashboardPage() {
               <MetricCards summary={summary} />
             ) : null}
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
               <SectionCard title="Aspect sentiment breakdown" className="lg:col-span-3">
                 {summaryLoading ? (
                   <LoadingShimmer />
@@ -142,16 +142,16 @@ export default function DashboardPage() {
                       positive={summary.positive_mentions}
                       negative={summary.negative_mentions}
                     />
-                    <div className="w-full divide-y divide-gray-50 dark:divide-gray-800 text-sm">
+                    <div className="w-full divide-y divide-gray-50 dark:divide-gray-800 text-base">
                       {[
                         { label: "Positive", v: summary.positive_mentions, color: "text-emerald-600" },
                         { label: "Negative", v: summary.negative_mentions, color: "text-orange-600" },
                       ].map((r) => (
-                        <div key={r.label} className="flex justify-between py-2">
+                        <div key={r.label} className="flex justify-between py-2.5">
                           <span className="text-gray-500">{r.label}</span>
-                          <span className={`font-medium ${r.color}`}>
+                          <span className={`font-semibold ${r.color}`}>
                             {r.v}{" "}
-                            <span className="text-gray-400 font-normal text-xs">
+                            <span className="text-gray-400 font-normal text-sm">
                               (
                               {summary.total_mentions > 0
                                 ? Math.round((r.v / summary.total_mentions) * 100)
@@ -188,7 +188,7 @@ export default function DashboardPage() {
 
         {/* ── TIMELINE ─────────────────────────────────────────────── */}
         {tab === "timeline" && (
-          <div className="space-y-5">
+          <div className="space-y-6">
             <SectionCard title="Sentiment signals over time">
               {tsLoading ? (
                 <LoadingShimmer rows={4} />
@@ -210,7 +210,7 @@ export default function DashboardPage() {
 
         {/* ── NLP PIPELINE ─────────────────────────────────────────── */}
         {tab === "pipeline" && (
-          <div className="space-y-5">
+          <div className="space-y-6">
             <SectionCard title="NLP pipeline visualizer">
               <PipelineVisualizer onRunComplete={refetchReviews} />
             </SectionCard>
