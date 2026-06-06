@@ -14,6 +14,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from redis.asyncio import Redis
+
+from app.core.cache import invalidate_product_cache
 from app.db.models import AspectResult, Review
 from app.models.schemas import ReviewCreate, ReviewRead
 from app.pipelines.nlp_pipeline import ABSAPipeline
@@ -37,25 +40,34 @@ async def get_reviews_for_product(
     offset: int = 0,
     sentiment_filter: Optional[str] = None,
 ) -> List[Review]:
-    """Return paginated reviews with their aspect results."""
+    """Return paginated reviews with their aspect results.
+
+    The sentiment_filter is applied inside SQL (via a JOIN + WHERE) so that
+    LIMIT/OFFSET operate on the already-filtered set. Previously the filter
+    was applied in Python after fetching a page, which caused pages to silently
+    return fewer rows than requested.
+    """
     q = (
         select(Review)
         .where(Review.product_id == product_id)
         .options(selectinload(Review.aspect_results))
         .order_by(Review.review_date.desc().nullsfirst())
-        .limit(limit)
-        .offset(offset)
     )
-    result = await db.execute(q)
-    reviews = result.scalars().all()
 
     if sentiment_filter:
-        reviews = [
-            r for r in reviews
-            if any(ar.sentiment == sentiment_filter for ar in r.aspect_results)
-        ]
+        # Join to aspect_results and filter before paginating.
+        # distinct() prevents duplicate Review rows when a review has
+        # multiple aspect_results that match the sentiment.
+        q = (
+            q.join(Review.aspect_results)
+             .where(AspectResult.sentiment == sentiment_filter)
+             .distinct()
+        )
 
-    return reviews
+    q = q.limit(limit).offset(offset)
+
+    result = await db.execute(q)
+    return list(result.scalars().all())
 
 
 async def process_review(
@@ -91,8 +103,13 @@ async def process_unprocessed_batch(
     pipeline: ABSAPipeline,
     db: AsyncSession,
     batch_size: int = 16,
+    redis: Redis | None = None,
 ) -> int:
-    """Find unprocessed reviews and run ABSA on them in batches. Returns count processed."""
+    """Find unprocessed reviews and run ABSA on them in batches. Returns count processed.
+
+    After processing, invalidates the Redis cache for this product so the
+    dashboard summary and time-series reflect the newly added aspect results.
+    """
     q = select(Review).where(
         Review.product_id == product_id,
         Review.processed == False,  # noqa: E712
@@ -102,5 +119,8 @@ async def process_unprocessed_batch(
 
     for review in reviews:
         await process_review(review, pipeline, db)
+
+    if reviews and redis is not None:
+        await invalidate_product_cache(redis, str(product_id))
 
     return len(reviews)
